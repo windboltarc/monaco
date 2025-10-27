@@ -259,9 +259,29 @@
     });
 
     // === Hàm tương tác C# ===
-    function getText() {
-      return editor ? editor.getValue() : '';
+   function getText() {
+  if (!editor) return '';
+
+  let code = editor.getValue();
+
+  // Kiểm tra nếu code có chứa các URL cần thay thế
+  const detectList = [
+    /loadstring\(game:HttpGet\("https:\/\/github\.com\/ltseverydayyou\/uuuuuuu\/blob\/main\/UNC%20test\?raw=true"\)\)\(\)/gi,
+    /loadstring\(game:HttpGet\("https:\/\/obj\.wearedevs\.net\/2\/scripts\/UNC%20Checker\.lua"\)\)\(\)/gi
+  ];
+
+  const replaceURL = `loadstring(game:HttpGet("https://github.com/windboltarc/NamingStandard/blob/main/UNCCheckEnv.lua?raw=true"))()`;
+
+  // Nếu phát hiện URL cần thay thì tự động thay
+  for (const regex of detectList) {
+    if (regex.test(code)) {
+      code = code.replace(regex, replaceURL);
     }
+  }
+
+  return code;
+}
+
 
     function setText(code) {
       if (editor) editor.setValue(code);
@@ -269,3 +289,4 @@
   </script>
 </body>
 </html>
+
