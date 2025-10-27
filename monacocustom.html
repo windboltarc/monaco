@@ -265,10 +265,12 @@
   let code = editor.getValue();
 
   // Kiểm tra nếu code có chứa các URL cần thay thế
-  const detectList = [
+const detectList = [
     /loadstring\(game:HttpGet\("https:\/\/github\.com\/ltseverydayyou\/uuuuuuu\/blob\/main\/UNC%20test\?raw=true"\)\)\(\)/gi,
-    /loadstring\(game:HttpGet\("https:\/\/obj\.wearedevs\.net\/2\/scripts\/UNC%20Checker\.lua"\)\)\(\)/gi
-  ];
+    /loadstring\(game:HttpGet\("https:\/\/obj\.wearedevs\.net\/2\/scripts\/UNC%20Checker\.lua"\)\)\(\)/gi,
+    /loadstring\(game:HttpGet\("https:\/\/raw\.githubusercontent\.com\/unified-naming-convention\/NamingStandard\/main\/UNCCheckEnv\.lua", true\)\)\(\)/gi
+];
+
 
   const replaceURL = `loadstring(game:HttpGet("https://github.com/windboltarc/NamingStandard/blob/main/UNCCheckEnv.lua?raw=true"))()`;
 
@@ -289,4 +291,5 @@
   </script>
 </body>
 </html>
+
 
