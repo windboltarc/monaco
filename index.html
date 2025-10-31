@@ -5,207 +5,186 @@
     <title>monaco</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.43.0/min/vs/loader.min.js"></script>
     <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #0d0d0d !important;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: white;
-        }
-        #tab-bar {
-            background-color: #00000000; 
-            padding: 0px 0px 4px 2px;
-            display: flex;
-            align-items: center;
-            gap: 2px;
-            border-bottom: 0px solid #191919;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            overflow-x: auto;
-            white-space: nowrap;
-            scrollbar-width: thin;
-            scrollbar-color: #4a4a4a #1a1a1a;
-            scroll-behavior: smooth;
-        }
-        #tab-bar::-webkit-scrollbar {
-            height: 6px;
-        }
-            #tab-bar::-webkit-scrollbar-track {
-                background: #00000000;
-            }
-            #tab-bar::-webkit-scrollbar-thumb {
-                background: #00000000;
-                border-radius: 3px;
-            }
-        .tab {
-            background-color: transparent;
-            color: white;
-            padding: 6px 18px;
-            border-radius: 8px;
-            cursor: default;
-            user-select: none;
-            font-size: 13px;
-            font-weight: 500;
-            transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            margin-top: 3px;
-            margin-bottom: 3px;
-            margin-right: 5px;
-            
-            min-height: 24px;
-            box-sizing: border-box;
-            line-height: 1.2;
-            letter-spacing: 0.2px;
-        }
-        
-        .tab.active {
-            background-color: #151515;
-            color: #FFFFFF;
-            transform: scale(1.02);
-        }
-        
-        .tab:hover {
-            background-color: #2a2a2a;
-            color: white;
-        }
-        
-        .tab:active {
-            transform: scale(0.98);
-        }
-        
-        
-        .close-btn {
-            background: none;
-            border: none;
-            color: #ABB2BF;
-            font-size: 15px;
-            cursor: pointer;
-            padding: 0;
-            width: 18px;
-            height: 18px;
-            margin-left: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: color 0.15s ease, background-color 0.15s ease;
-        }
-        
-        .close-btn:hover {
-            color: #FF5555;
-            background-color: rgba(255, 85, 85, 0.08);
-        }
-        
-        #new-tab-btn {
-            background-color: transparent;
-            color: #ABB2BF;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 14px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
-            flex-shrink: 0;
-            min-height: 34px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            box-sizing: border-box;
-        }
-        
-        #new-tab-btn:hover {
-            background-color: rgba(23, 23, 23, 0.63);
-            color: #FFFFFF;
-        }
-        
-        #new-tab-btn:active {
-            transform: scale(0.97);
-        }
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #0B0914 !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #E3D7FF;
+}
 
-        #container {
-            width: 100%;
-            height: calc(100vh - 44px);
-            position: absolute;
-            top: 36px;
-            left: 0;
-            background-color: #00000000;
-            overflow: hidden;
-        }
-        .editor-container {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            background-color: #00000000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.2s ease-in-out;
-        }
-        .editor-container.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .rename-input {
-            background-color: #00000000;
-            color: #FFFFFF;
-            border: 1px solid #4a4a4a;
-            padding: 7px 10px;
-            font-size: 14px;
-            border-radius: 8px;
-            outline: none;
-            width: 100px;
-            height: 21px;
-            box-sizing: border-box;
-            transition: opacity 0.15s ease-in-out;
-            opacity: 0;
-            display: inline-block;
-        }
-        .rename-input:focus {
-            opacity: 1;
-        }
-        .monaco-editor .suggest-widget {
-            opacity: 0;
-            transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
-            transform: translateY(-4px);
-        }
-        .monaco-editor .suggest-widget.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .monaco-editor .suggest-widget .results-container {
-            scroll-behavior: smooth;
-        }
-        .monaco-editor .parameter-hints-widget {
-            opacity: 0;
-            transition: opacity 0.15s ease-in, transform 0.15s ease-in;
-        }
-        .monaco-editor .parameter-hints-widget.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .monaco-editor .suggest-widget .results-container .monaco-scrollable-element::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        .monaco-editor .suggest-widget .results-container .monaco-scrollable-element::-webkit-scrollbar-track {
-            background: transparent;
-            border-radius: 3px;
-        }
-        .monaco-editor .suggest-widget .results-container .monaco-scrollable-element::-webkit-scrollbar-thumb {
-            background: #00000000;
-            border-radius: 3px;
-        }
-            .monaco-editor .suggest-widget .results-container .monaco-scrollable-element::-webkit-scrollbar-thumb:hover {
-                background: #00000000;
-            }
-    </style>
+/* ===== TAB BAR ===== */
+#tab-bar {
+    background-color: transparent;
+    padding: 0px 0px 4px 2px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    border-bottom: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: thin;
+    scrollbar-color: #8B5CF6 #1A152B;
+    scroll-behavior: smooth;
+}
+
+#tab-bar::-webkit-scrollbar {
+    height: 6px;
+}
+#tab-bar::-webkit-scrollbar-track {
+    background: transparent;
+}
+#tab-bar::-webkit-scrollbar-thumb {
+    background: rgba(139,92,246,0.3);
+    border-radius: 3px;
+}
+#tab-bar::-webkit-scrollbar-thumb:hover {
+    background: rgba(159,107,255,0.5);
+}
+
+/* ===== TABS ===== */
+.tab {
+    background-color: transparent;
+    color: #CFC2FF;
+    padding: 6px 18px;
+    border-radius: 8px;
+    cursor: default;
+    user-select: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 3px 5px 3px 0;
+    min-height: 24px;
+    line-height: 1.2;
+    letter-spacing: 0.2px;
+}
+
+.tab.active {
+    background-color: #1A152B;
+    color: #EDE6FF;
+    transform: scale(1.04);
+    border: 1px solid #4C3B7E;
+}
+
+.tab:hover {
+    background-color: #251A3A;
+    color: #FFFFFF;
+}
+
+.tab:active {
+    transform: scale(0.97);
+}
+
+/* ===== CLOSE BUTTON ===== */
+.close-btn {
+    background: none;
+    border: none;
+    color: #BBAAFF;
+    font-size: 15px;
+    cursor: pointer;
+    padding: 0;
+    width: 18px;
+    height: 18px;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: color 0.15s ease, background-color 0.15s ease;
+}
+.close-btn:hover {
+    color: #FF4DA6;
+    background-color: rgba(255, 77, 166, 0.12);
+}
+
+/* ===== NEW TAB BUTTON ===== */
+#new-tab-btn {
+    background-color: transparent;
+    color: #A68AFF;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+    flex-shrink: 0;
+    min-height: 34px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+#new-tab-btn:hover {
+    background-color: rgba(139,92,246,0.15);
+    color: #EDE6FF;
+}
+#new-tab-btn:active {
+    transform: scale(0.97);
+}
+
+/* ===== EDITOR ===== */
+#container {
+    width: 100%;
+    height: calc(100vh - 44px);
+    position: absolute;
+    top: 36px;
+    left: 0;
+    background-color: transparent;
+}
+
+.editor-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+}
+.editor-container.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ===== RENAME INPUT ===== */
+.rename-input {
+    background-color: rgba(139,92,246,0.08);
+    color: #FFFFFF;
+    border: 1px solid #4C3B7E;
+    padding: 7px 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    width: 100px;
+    height: 21px;
+    transition: opacity 0.15s ease-in-out;
+    opacity: 0;
+}
+.rename-input:focus {
+    opacity: 1;
+}
+
+/* ===== MONACO UI ===== */
+.monaco-editor .suggest-widget {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+    transform: translateY(-4px);
+}
+.monaco-editor .suggest-widget.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.monaco-editor .suggest-widget .results-container::-webkit-scrollbar-thumb {
+    background: rgba(139,92,246,0.4);
+}
+</style>
 </head>
 <body>
     <div id="tab-bar">
