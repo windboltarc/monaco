@@ -285,22 +285,21 @@ html, body {
                     { token: 'operator', foreground: 'ABB2BF' },
                     { token: 'delimiter', foreground: '88908B' },
                 ],
-                colors: {
-                    'editor.background': '#00000000',
-                    'editor.foreground': '#FFFFFF',
-                    'editor.lineHighlightBackground': '#2a2a2a',
-                    'editorCursor.foreground': '#FFFFFF',
-                    'editor.selectionBackground': '#3E445180',
-                    'editorLineNumber.foreground': '#5C6370',
-                    'editorLineNumber.activeForeground': '#ABB2BF',
-                    'editorSuggestWidget.background': '#1a1a1a',
-                    'editorSuggestWidget.foreground': '#FFFFFF',
-                    'editorSuggestWidget.highlightForeground': '#999966',
-                    'editorHoverWidget.background': '#21252B',
-                    'editorHoverWidget.foreground': '#FFFFFF',
-                    'scrollbar.shadow': 'none',
-                    'scrollbarSlider.background': '#74747450'
-                }
+               colors: {
+    'editor.background': '#00000000',                 // editor code
+    'editorGutter.background': '#00000000',           // gutter (line numbers)
+    'editorLineNumber.foreground': '#5C6370',        // vẫn có thể giữ màu
+    'editorLineNumber.activeForeground': '#ABB2BF',
+    'editorWidget.background': '#00000000',          // popup widget background
+    'editorSuggestWidget.background': '#00000000',   // suggest widget
+    'editorHoverWidget.background': '#00000000',     // hover popup
+    'editorGroupHeader.tabsBackground': '#00000000', // tab bar nếu có
+    'tab.activeBackground': '#00000000',             // active tab
+    'tab.inactiveBackground': '#00000000',           // inactive tab
+    'scrollbarSlider.background': '#74747450',       // semi-transparent
+    'scrollbar.shadow': 'none'
+}
+
             });
 
             monaco.languages.registerCompletionItemProvider('lua', {
@@ -1474,6 +1473,7 @@ const luaSnippets = [
 </body>
 
 </html>
+
 
 
 
